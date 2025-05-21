@@ -15,31 +15,31 @@
 
       body {
         font-family: "Gowun Dodum", sans-serif;
-        background-color: #fef9ff;
+        background-color: #0d0f24; /* 밤하늘 */
         margin: 0;
         padding: 20px;
-        color: #333;
+        color: #e0e0ff; /* 별빛같은 밝은 흰색 */
       }
-
       h1 {
         text-align: center;
         margin-bottom: 10px;
         font-size: 2rem;
-        color: #a832a6; /* 더 선명한 보라 */
+        color: #b388eb; /* 연보라 별빛 */
+        text-shadow: 0 0 5px #b388eb, 0 0 10px #a29bfe;
       }
 
       .info-bar {
         text-align: center;
         font-size: 0.95rem;
         margin-bottom: 20px;
-        color: #666;
-        background-color: #ffe3fa; /* 더 진한 핑크톤 */
+        color: #ccc;
+        background-color: #1e1f3f; /* 어두운 남보라 */
         padding: 10px 15px;
         border-radius: 10px;
         max-width: 400px;
         margin-left: auto;
         margin-right: auto;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+        box-shadow: 0 0 12px rgba(138, 99, 210, 0.4);
       }
 
       .container {
@@ -53,21 +53,21 @@
       .card {
         border-radius: 16px;
         padding: 20px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-        border: 2px solid #dda0dd; /* 연보라 */
+        box-shadow: 0 4px 15px rgba(138, 99, 210, 0.2);
+        border: 2px solid #8a63d2;
       }
 
       .card.input {
-        background: #e3f2fd; /* 밝은 스카이블루 */
+        background: #1b1e3c;
       }
 
       .card.output {
-        background: #fff2cc; /* 상큼한 노랑 */
+        background: #2b2e4a;
       }
       .card h2 {
         font-size: 1.2rem;
         margin-bottom: 15px;
-        color: #5b3a91;
+        color: #a29bfe; /* 연보라 파랑 */
       }
       .input-group {
         margin-bottom: 14px;
@@ -78,19 +78,21 @@
       label {
         margin-bottom: 5px;
         font-weight: 500;
-        color: #444;
+        color: #f0f0f5;
       }
 
       input {
         padding: 10px;
         font-size: 1rem;
-        border: 1px solid #ccc;
+        border: 1px solid #444;
         border-radius: 10px;
+        background-color: #12142b;
+        color: #ffffff;
       }
 
       input[readonly] {
-        background-color: #f9f9f9;
-        color: #666;
+        background-color: #191a33;
+        color: #bbb;
       }
 
       @media (max-width: 768px) {
@@ -112,9 +114,9 @@
 
       input.animate {
         animation: popIn 0.4s ease;
-        box-shadow: 0 0 8px rgba(236, 110, 219, 0.5),
-          0 0 12px rgba(255, 180, 255, 0.4), 0 0 16px rgba(255, 210, 255, 0.3);
-        border-color: #ec6edb; /* 형광 핑크 */
+        box-shadow: 0 0 10px rgba(255, 204, 255, 0.4),
+          0 0 14px rgba(162, 155, 254, 0.3), 0 0 18px rgba(138, 99, 210, 0.3);
+        border-color: #b388eb;
       }
     </style>
   </head>
@@ -193,7 +195,7 @@
         text-align: center;
         margin-top: 30px;
         font-size: 0.9rem;
-        color: #888;
+        color: #ffffff;
         font-weight: bold;
       "
     >
