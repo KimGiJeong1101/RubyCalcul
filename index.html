@@ -1,195 +1,244 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>던전 루비 계산기</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f0f4f8;
-      margin: 0;
-      padding: 20px;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 25px;
-      color: #265d9b;
-    }
-
-    .container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-      max-width: 1000px;
-      margin: auto;
-    }
-
-    .card {
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    }
-
-    .card.input {
-      background: #e0f2ff;
-    }
-
-    .card.output {
-      background: #fffbea;
-    }
-
-    .card h2 {
-      font-size: 1.1rem;
-      margin-bottom: 15px;
-      color: #333;
-    }
-
-    .input-group {
-      margin-bottom: 14px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    label {
-      margin-bottom: 4px;
-      font-weight: 500;
-      color: #444;
-    }
-
-    input {
-      padding: 8px;
-      font-size: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-
-    input[readonly] {
-      background-color: #f9f9f9;
-      color: #666;
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        grid-template-columns: 1fr;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>던전 루비 계산기</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
       }
-    }
-  </style>
-</head>
-<body>
 
-  <h1>던전 루비 계산기</h1>
+      body {
+        font-family: "Gowun Dodum", sans-serif;
+        background-color: #fef9ff;
+        margin: 0;
+        padding: 20px;
+        color: #333;
+      }
 
-  <div class="container">
+      h1 {
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: 2rem;
+        color: #a832a6; /* 더 선명한 보라 */
+      }
 
-    <!-- 입력 카드 -->
-    <div class="card input">
-      <h2>🎯 입력값</h2>
+      .info-bar {
+        text-align: center;
+        font-size: 0.95rem;
+        margin-bottom: 20px;
+        color: #666;
+        background-color: #ffe3fa; /* 더 진한 핑크톤 */
+        padding: 10px 15px;
+        border-radius: 10px;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+      }
 
-      <div class="input-group">
-        <label>50루비로 열쇠상자 구매 (최대 20회)</label>
-        <input type="number" />
+      .container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        max-width: 1000px;
+        margin: auto;
+      }
+
+      .card {
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        border: 2px solid #dda0dd; /* 연보라 */
+      }
+
+      .card.input {
+        background: #e3f2fd; /* 밝은 스카이블루 */
+      }
+
+      .card.output {
+        background: #fff2cc; /* 상큼한 노랑 */
+      }
+      .card h2 {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        color: #5b3a91;
+      }
+      .input-group {
+        margin-bottom: 14px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      label {
+        margin-bottom: 5px;
+        font-weight: 500;
+        color: #444;
+      }
+
+      input {
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+      }
+
+      input[readonly] {
+        background-color: #f9f9f9;
+        color: #666;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @keyframes popIn {
+        0% {
+          opacity: 0;
+          transform: translateX(-10px) scale(1.05);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0) scale(1);
+        }
+      }
+
+      input.animate {
+        animation: popIn 0.4s ease;
+        box-shadow: 0 0 8px rgba(236, 110, 219, 0.5),
+          0 0 12px rgba(255, 180, 255, 0.4), 0 0 16px rgba(255, 210, 255, 0.3);
+        border-color: #ec6edb; /* 형광 핑크 */
+      }
+    </style>
+  </head>
+  <body>
+    <h1>💎 던전 루비 계산기 💎</h1>
+
+    <div class="info-bar">
+      🔑 열쇠상자 1개 → <strong>60개 열쇠</strong><br />
+      ⚔️ 던전 1회 → <strong>6개 열쇠 소모</strong>
+    </div>
+
+    <div class="container">
+      <!-- 입력 카드 -->
+      <div class="card input">
+        <h2>📝 입력값</h2>
+
+        <div class="input-group">
+          <label>💰 50루비 상자 구매 횟수 (최대 20회)</label>
+          <input type="number" />
+        </div>
+
+        <div class="input-group">
+          <label>💰 80루비 상자 구매 횟수 (최대 50회)</label>
+          <input type="number" />
+        </div>
+
+        <div class="input-group">
+          <label>🎁 보상 받는 던전 판수</label>
+          <input type="number" />
+        </div>
       </div>
 
-      <div class="input-group">
-        <label>80루비로 열쇠상자 구매 (최대 50회)</label>
-        <input type="number" />
-      </div>
+      <!-- 계산 결과 카드 -->
+      <div class="card output">
+        <h2>📊 계산 결과</h2>
 
-      <div class="input-group">
-        <label>80루비 보상 받는 던전 판수</label>
-        <input type="number" />
+        <div class="input-group">
+          <label>📦 총 상자 구매 횟수</label>
+          <input type="number" readonly />
+        </div>
+
+        <div class="input-group">
+          <label>💸 상자 구매 총 루비 소모</label>
+          <input type="number" readonly />
+        </div>
+
+        <div class="input-group">
+          <label>🗝️ 획득한 총 열쇠 수</label>
+          <input type="number" readonly />
+        </div>
+
+        <div class="input-group">
+          <label>⚔️ 가능한 던전 플레이 횟수</label>
+          <input type="number" readonly />
+        </div>
+
+        <div class="input-group">
+          <label>🎯 보상 받을 수 있는 횟수</label>
+          <input type="number" readonly />
+        </div>
+
+        <div class="input-group">
+          <label>💎 예상 총 루비 획득량</label>
+          <input type="number" readonly />
+        </div>
+
+        <div class="input-group">
+          <label>📉 루비 순이익 (±)</label>
+          <input type="number" readonly />
+        </div>
       </div>
     </div>
 
-    <!-- 계산 결과 카드 -->
-    <div class="card output">
-      <h2>📊 계산 결과</h2>
+    <p
+      style="
+        text-align: center;
+        margin-top: 30px;
+        font-size: 0.9rem;
+        color: #888;
+        font-weight: bold;
+      "
+    >
+      ℹ️ 계산 과정에서 소수점은 반올림되므로 실제 결과와 약간 다를 수 있습니다.
+    </p>
 
-      <div class="input-group">
-        <label>열쇠상자 개당 열쇠 갯수</label>
-        <input type="number" value="60" readonly />
-      </div>
+    <script>
+      const inputs = document.querySelectorAll("input");
 
-      <div class="input-group">
-        <label>던전 당 열쇠 소모</label>
-        <input type="number" value="6" readonly />
-      </div>
+      function animateValue(input, value) {
+        if (input.value == value) return; // 값 같으면 생략!
+        input.classList.remove("animate");
+        void input.offsetWidth;
+        input.value = value;
+        input.classList.add("animate");
+      }
 
-      <div class="input-group">
-        <label>열쇠상자 총 구매 횟수</label>
-        <input type="number" readonly />
-      </div>
+      function calc() {
+        const keyPerBox = 60;
+        const keyPerDungeon = 6;
+        const buy50 = Number(inputs[0].value);
+        const buy80 = Number(inputs[1].value);
+        const rewardInterval = Number(inputs[2].value);
 
-      <div class="input-group">
-        <label>열쇠상자 구매에 따른 총 소모 루비</label>
-        <input type="number" readonly />
-      </div>
+        const totalBox = buy50 + buy80;
+        const totalUsedRuby = buy50 * 50 + buy80 * 80;
+        const totalKeys = totalBox * keyPerBox;
+        const totalDungeons = Math.floor(totalKeys / keyPerDungeon);
+        const rubyRewardCount =
+          rewardInterval > 0 ? Math.floor(totalDungeons / rewardInterval) : 0;
+        const totalRubyReward = rubyRewardCount * 80;
+        const rubyProfit = totalRubyReward - totalUsedRuby;
 
-      <div class="input-group">
-        <label>열쇠로 환산된 총 열쇠</label>
-        <input type="number" readonly />
-      </div>
+        animateValue(inputs[3], totalBox);
+        animateValue(inputs[4], totalUsedRuby);
+        animateValue(inputs[5], totalKeys);
+        animateValue(inputs[6], totalDungeons);
+        animateValue(inputs[7], rubyRewardCount);
+        animateValue(inputs[8], totalRubyReward);
+        animateValue(inputs[9], rubyProfit);
+      }
 
-      <div class="input-group">
-        <label>열쇠로 도는 던전 횟수</label>
-        <input type="number" readonly />
-      </div>
-
-      <div class="input-group">
-        <label>80루비 보상을 받을 수 있는 횟수</label>
-        <input type="number" readonly />
-      </div>
-
-      <div class="input-group">
-        <label>총 얻는 루비</label>
-        <input type="number" readonly />
-      </div>
-
-      <div class="input-group">
-        <label>루비 득/손실</label>
-        <input type="number" readonly />
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const inputs = document.querySelectorAll("input");
-
-    function calc() {
-      const keyPerBox = Number(inputs[3].value);      // 고정값 60
-      const buy50 = Number(inputs[0].value);          // 입력
-      const buy80 = Number(inputs[1].value);          // 입력
-      const keyPerDungeon = Number(inputs[4].value);  // 고정값 6
-      const rewardInterval = Number(inputs[2].value); // 입력
-
-      const totalBox = buy50 + buy80;
-      const totalUsedRuby = buy50 * 50 + buy80 * 80;
-      const totalKeys = totalBox * keyPerBox;
-      const totalDungeons = Math.floor(totalKeys / keyPerDungeon);
-      const rubyRewardCount = rewardInterval > 0 ? Math.floor(totalDungeons / rewardInterval) : 0;
-      const totalRubyReward = rubyRewardCount * 80;
-      const rubyProfit = totalRubyReward - totalUsedRuby;
-
-      // 출력 순서대로 반영
-      inputs[5].value = totalBox;
-      inputs[6].value = totalUsedRuby;
-      inputs[7].value = totalKeys;
-      inputs[8].value = totalDungeons;
-      inputs[9].value = rubyRewardCount;
-      inputs[10].value = totalRubyReward;
-      inputs[11].value = rubyProfit;
-    }
-
-    // 입력값 변화 시 계산 실행
-    inputs[0].addEventListener("input", calc);
-    inputs[1].addEventListener("input", calc);
-    inputs[2].addEventListener("input", calc);
-  </script>
-</body>
+      inputs[0].addEventListener("input", calc);
+      inputs[1].addEventListener("input", calc);
+      inputs[2].addEventListener("input", calc);
+    </script>
+  </body>
 </html>
