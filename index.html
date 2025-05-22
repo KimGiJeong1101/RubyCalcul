@@ -8,117 +8,7 @@
       href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap"
       rel="stylesheet"
     />
-    <style>
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: "Gowun Dodum", sans-serif;
-        background-color: #0d0f24; /* 밤하늘 */
-        margin: 0;
-        padding: 20px;
-        color: #e0e0ff; /* 별빛같은 밝은 흰색 */
-      }
-      h1 {
-        text-align: center;
-        margin-bottom: 10px;
-        font-size: 2rem;
-        color: #b388eb; /* 연보라 별빛 */
-        text-shadow: 0 0 5px #b388eb, 0 0 10px #a29bfe;
-      }
-
-      .info-bar {
-        text-align: center;
-        font-size: 0.95rem;
-        margin-bottom: 20px;
-        color: #ccc;
-        background-color: #1e1f3f; /* 어두운 남보라 */
-        padding: 10px 15px;
-        border-radius: 10px;
-        max-width: 400px;
-        margin-left: auto;
-        margin-right: auto;
-        box-shadow: 0 0 12px rgba(138, 99, 210, 0.4);
-      }
-
-      .container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 20px;
-        max-width: 1000px;
-        margin: auto;
-      }
-
-      .card {
-        border-radius: 16px;
-        padding: 20px;
-        box-shadow: 0 4px 15px rgba(138, 99, 210, 0.2);
-        border: 2px solid #8a63d2;
-      }
-
-      .card.input {
-        background: #1b1e3c;
-      }
-
-      .card.output {
-        background: #2b2e4a;
-      }
-      .card h2 {
-        font-size: 1.2rem;
-        margin-bottom: 15px;
-        color: #a29bfe; /* 연보라 파랑 */
-      }
-      .input-group {
-        margin-bottom: 14px;
-        display: flex;
-        flex-direction: column;
-      }
-
-      label {
-        margin-bottom: 5px;
-        font-weight: 500;
-        color: #f0f0f5;
-      }
-
-      input {
-        padding: 10px;
-        font-size: 1rem;
-        border: 1px solid #444;
-        border-radius: 10px;
-        background-color: #12142b;
-        color: #ffffff;
-      }
-
-      input[readonly] {
-        background-color: #191a33;
-        color: #bbb;
-      }
-
-      @media (max-width: 768px) {
-        .container {
-          grid-template-columns: 1fr;
-        }
-      }
-
-      @keyframes popIn {
-        0% {
-          opacity: 0;
-          transform: translateX(-10px) scale(1.05);
-        }
-        100% {
-          opacity: 1;
-          transform: translateX(0) scale(1);
-        }
-      }
-
-      input.animate {
-        animation: popIn 0.4s ease;
-        box-shadow: 0 0 10px rgba(255, 204, 255, 0.4),
-          0 0 14px rgba(162, 155, 254, 0.3), 0 0 18px rgba(138, 99, 210, 0.3);
-        border-color: #b388eb;
-      }
-    </style>
+    <link rel="stylesheet" href="./css/ruby.css" />
   </head>
   <body>
     <h1>💎 던전 루비 계산기 💎</h1>
@@ -135,18 +25,23 @@
 
         <div class="input-group">
           <label>💰 50루비 상자 구매 횟수 (최대 20회)</label>
-          <input type="number" />
+          <input type="number" id="buy50" />
+          <div class="warning" id="warn50"></div>
         </div>
 
         <div class="input-group">
           <label>💰 80루비 상자 구매 횟수 (최대 50회)</label>
-          <input type="number" />
+          <input type="number" id="buy80" />
+          <div class="warning" id="warn80"></div>
         </div>
 
         <div class="input-group">
           <label>🎁 보상 받는 던전 판수</label>
           <input type="number" />
         </div>
+
+        <!-- 그래프 영역 -->
+        <canvas id="rubyChart" width="400" height="200"></canvas>
       </div>
 
       <!-- 계산 결과 카드 -->
@@ -202,45 +97,8 @@
       ℹ️ 계산 과정에서 소수점은 반올림되므로 실제 결과와 약간 다를 수 있습니다.
     </p>
 
-    <script>
-      const inputs = document.querySelectorAll("input");
-
-      function animateValue(input, value) {
-        if (input.value == value) return; // 값 같으면 생략!
-        input.classList.remove("animate");
-        void input.offsetWidth;
-        input.value = value;
-        input.classList.add("animate");
-      }
-
-      function calc() {
-        const keyPerBox = 60;
-        const keyPerDungeon = 6;
-        const buy50 = Number(inputs[0].value);
-        const buy80 = Number(inputs[1].value);
-        const rewardInterval = Number(inputs[2].value);
-
-        const totalBox = buy50 + buy80;
-        const totalUsedRuby = buy50 * 50 + buy80 * 80;
-        const totalKeys = totalBox * keyPerBox;
-        const totalDungeons = Math.floor(totalKeys / keyPerDungeon);
-        const rubyRewardCount =
-          rewardInterval > 0 ? Math.floor(totalDungeons / rewardInterval) : 0;
-        const totalRubyReward = rubyRewardCount * 80;
-        const rubyProfit = totalRubyReward - totalUsedRuby;
-
-        animateValue(inputs[3], totalBox);
-        animateValue(inputs[4], totalUsedRuby);
-        animateValue(inputs[5], totalKeys);
-        animateValue(inputs[6], totalDungeons);
-        animateValue(inputs[7], rubyRewardCount);
-        animateValue(inputs[8], totalRubyReward);
-        animateValue(inputs[9], rubyProfit);
-      }
-
-      inputs[0].addEventListener("input", calc);
-      inputs[1].addEventListener("input", calc);
-      inputs[2].addEventListener("input", calc);
-    </script>
+    <script src="./js/ruby.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="./js/chart.js"></script>
   </body>
 </html>
